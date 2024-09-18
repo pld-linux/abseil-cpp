@@ -5,22 +5,22 @@
 Summary:	Abseil - C++ common libraries
 Summary(pl.UTF-8):	Abseil - wspólne biblioteki C++
 Name:		abseil-cpp
-Version:	20220623.2
+Version:	20230802.2
 Release:	1
 License:	Apache v2.0
 Group:		Libraries
 #Source0Download: https://github.com/abseil/abseil-cpp/releases
 Source0:	https://github.com/abseil/abseil-cpp/archive/%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	92b96f2931ded8e9e851163400b330cd
+# Source0-md5:	1c228d04cbd496b0ae748a48330d757c
 URL:		https://abseil.io/
-BuildRequires:	cmake >= 3.8
+BuildRequires:	cmake >= 3.10
 BuildRequires:	libstdc++-devel >= 6:7
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-# refers to _ZN4absl12lts_2021110213cord_internal17cordz_next_sampleE non-function symb ol from libabsl_condz_functions
+# refers to _ZN4absl12lts_2021110213cord_internal17cordz_next_sampleE non-function symbol from libabsl_condz_functions
 %define		skip_post_check_so	libabsl_cord.so.*
 
-%define		abiver			2206.0.0
+%define		abiver			2308.0.0
 
 %description
 Abseil is an open-source collection of C++ library code designed to
