@@ -14,7 +14,11 @@ Source0:	https://github.com/abseil/abseil-cpp/archive/%{version}/%{name}-%{versi
 # Source0-md5:	1c228d04cbd496b0ae748a48330d757c
 URL:		https://abseil.io/
 BuildRequires:	cmake >= 3.10
+%ifnarch %{arch_with_atomics64}
+BuildRequires:	libatomic-devel
+%endif
 BuildRequires:	libstdc++-devel >= 6:7
+BuildRequires:	rpmbuild(macros) >= 2.025
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 # refers to _ZN4absl12lts_2021110213cord_internal17cordz_next_sampleE non-function symbol from libabsl_condz_functions
@@ -79,7 +83,10 @@ install -d build
 cd build
 %cmake .. \
 	-DABSL_PROPAGATE_CXX_STD=ON \
-	-DCMAKE_CXX_STANDARD=17
+	-DCMAKE_CXX_STANDARD=17 \
+%ifnarch %{arch_with_atomics64}
+	-DCMAKE_CXX_STANDARD_LIBRARIES="-latomic"
+%endif
 
 %{__make}
 
