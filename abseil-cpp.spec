@@ -1,4 +1,6 @@
 #
+# TODO: move testing libraries to separate package
+#
 # Conditional build:
 %bcond_without	static_libs	# static libraries
 #
@@ -6,7 +8,7 @@ Summary:	Abseil - C++ common libraries
 Summary(pl.UTF-8):	Abseil - wspólne biblioteki C++
 Name:		abseil-cpp
 Version:	20250814.0
-Release:	1
+Release:	2
 License:	Apache v2.0
 Group:		Libraries
 #Source0Download: https://github.com/abseil/abseil-cpp/releases
@@ -14,6 +16,8 @@ Source0:	https://github.com/abseil/abseil-cpp/archive/%{version}/%{name}-%{versi
 # Source0-md5:	016feacd6a6b3b9a47ab844e61f4f7bd
 URL:		https://abseil.io/
 BuildRequires:	cmake >= 3.10
+BuildRequires:	gmock-devel
+BuildRequires:	gtest-devel
 %ifnarch %{arch_with_atomics64}
 BuildRequires:	libatomic-devel
 %endif
@@ -43,6 +47,8 @@ Summary:	Header files for Abseil libraries
 Summary(pl.UTF-8):	Pliki nagłówkowe bibliotek Abseil
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
+Requires:	gmock-devel
+Requires:	gtest-devel
 Requires:	libstdc++-devel >= 6:7
 
 %description devel
@@ -73,7 +79,11 @@ cd build-static
 %cmake .. \
 	-DABSL_PROPAGATE_CXX_STD=ON \
 	-DBUILD_SHARED_LIBS=OFF \
-	-DCMAKE_CXX_STANDARD=17
+	-DCMAKE_CXX_STANDARD=17 \
+	-DABSL_USE_EXTERNAL_GOOGLETEST:BOOL=ON \
+	-DABSL_FIND_GOOGLETEST:BOOL=ON \
+	-DABSL_BUILD_TESTING:BOOL=ON \
+	-DABSL_BUILD_TEST_HELPERS:BOOL=ON
 
 %{__make}
 cd ..
@@ -82,8 +92,12 @@ cd ..
 install -d build
 cd build
 %cmake .. \
-	-DABSL_PROPAGATE_CXX_STD=ON \
-	-DCMAKE_CXX_STANDARD=17 \
+	-DABSL_PROPAGATE_CXX_STD:BOOL=ON \
+	-DCMAKE_CXX_STANDARD:STRING=17 \
+	-DABSL_USE_EXTERNAL_GOOGLETEST:BOOL=ON \
+	-DABSL_FIND_GOOGLETEST:BOOL=ON \
+	-DABSL_BUILD_TESTING:BOOL=ON \
+	-DABSL_BUILD_TEST_HELPERS:BOOL=ON \
 %ifnarch %{arch_with_atomics64}
 	-DCMAKE_CXX_STANDARD_LIBRARIES="-latomic"
 %endif
