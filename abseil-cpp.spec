@@ -8,12 +8,13 @@ Summary:	Abseil - C++ common libraries
 Summary(pl.UTF-8):	Abseil - wspólne biblioteki C++
 Name:		abseil-cpp
 Version:	20250814.0
-Release:	2
+Release:	3
 License:	Apache v2.0
 Group:		Libraries
 #Source0Download: https://github.com/abseil/abseil-cpp/releases
 Source0:	https://github.com/abseil/abseil-cpp/archive/%{version}/%{name}-%{version}.tar.gz
 # Source0-md5:	016feacd6a6b3b9a47ab844e61f4f7bd
+Patch0:		x32.patch
 URL:		https://abseil.io/
 BuildRequires:	cmake >= 3.10
 BuildRequires:	gmock-devel
@@ -71,6 +72,7 @@ Statyczne biblioteki Abseil.
 
 %prep
 %setup -q
+%patch -P0 -p1
 
 %build
 %if %{with static_libs}

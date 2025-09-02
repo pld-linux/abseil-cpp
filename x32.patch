@@ -1,0 +1,29 @@
+--- abseil-cpp-20250814.0/absl/debugging/symbolize_test.cc.orig	2025-08-14 21:54:55.000000000 +0200
++++ abseil-cpp-20250814.0/absl/debugging/symbolize_test.cc	2025-09-02 04:09:57.539996765 +0200
+@@ -463,6 +463,7 @@
+         // !ABSL_INTERNAL_HAVE_EMSCRIPTEN_SYMBOLIZE
+ 
+ // x86 specific tests.  Uses some inline assembler.
++#if defined(__i386__) || (defined(__x86_64__) && !defined(__ILP32__))
+ extern "C" {
+ inline void *ABSL_ATTRIBUTE_ALWAYS_INLINE inline_func() {
+   void *pc = nullptr;
+@@ -505,6 +506,7 @@
+ #endif
+ }
+ }
++#endif
+ 
+ #if defined(__arm__) && ABSL_HAVE_ATTRIBUTE(target) && \
+     ((__ARM_ARCH >= 7) || !defined(__ARM_PCS_VFP))
+@@ -621,8 +623,10 @@
+ #if defined(ABSL_INTERNAL_HAVE_ELF_SYMBOLIZE) ||        \
+     defined(ABSL_INTERNAL_HAVE_EMSCRIPTEN_SYMBOLIZE) || \
+     defined(ABSL_INTERNAL_HAVE_DARWIN_SYMBOLIZE)
++#if defined(__i386__) || (defined(__x86_64__) && !defined(__ILP32__))
+   TestWithPCInsideInlineFunction();
+   TestWithPCInsideNonInlineFunction();
++#endif
+   TestWithReturnAddress();
+ #if defined(__arm__) && ABSL_HAVE_ATTRIBUTE(target) && \
+     ((__ARM_ARCH >= 7) || !defined(__ARM_PCS_VFP))
