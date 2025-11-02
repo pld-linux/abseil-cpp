@@ -22,7 +22,7 @@ BuildRequires:	gtest-devel
 BuildRequires:	libatomic-devel
 %endif
 BuildRequires:	libstdc++-devel >= 6:7
-BuildRequires:	rpmbuild(macros) >= 2.025
+BuildRequires:	rpmbuild(macros) >= 2.047
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 # refers to _ZN4absl12lts_2021110213cord_internal17cordz_next_sampleE non-function symbol from libabsl_condz_functions
